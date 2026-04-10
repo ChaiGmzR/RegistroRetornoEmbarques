@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Directorio externo de la aplicacion para almacenar APKs de actualizacion -->
+    <external-files-path
+        name="updates"
+        path="updates/" />
+
+    <!-- Directorio de cache externo -->
+    <external-cache-path
+        name="external_cache"
+        path="." />
+
+    <!-- Directorio de archivos internos -->
+    <files-path
+        name="files"
+        path="." />
+
+    <!-- Directorio de cache interno -->
+    <cache-path
+        name="cache"
+        path="." />
+</paths>
