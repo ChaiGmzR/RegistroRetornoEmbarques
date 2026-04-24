@@ -34,13 +34,18 @@ abstract final class ShippingQrParser {
     caseSensitive: false,
   );
 
-  static final RegExp _directPartNumberFormat = RegExp(
-    r'\b(EBR[A-Z0-9]+)\b',
+  static final RegExp _tracedBoxPartNumberFormat = RegExp(
+    r"(?:\b\d{4}[-'])?([A-Z]{2,5}\d{6,12})(?=(?:[-']+)?TR\d{4}(?:[_?]\d+)?\b)",
     caseSensitive: false,
   );
 
   static final RegExp _embeddedEbrPartNumberFormat = RegExp(
     r'(EBR\d{8})',
+    caseSensitive: false,
+  );
+
+  static final RegExp _directPartNumberFormat = RegExp(
+    r'\b(EBR[A-Z0-9]+)\b',
     caseSensitive: false,
   );
 
@@ -89,21 +94,30 @@ abstract final class ShippingQrParser {
       );
     }
 
-    final directPartNumberMatch =
+    final tracedBoxPartNumberMatch =
+        _tracedBoxPartNumberFormat.firstMatch(normalizedValue);
+    if (tracedBoxPartNumberMatch != null) {
+      return ShippingQrData(
+        rawValue: normalizedValue,
+        partNumber: tracedBoxPartNumberMatch.group(1)!.toUpperCase(),
+      );
+    }
+
+    final embeddedEbrPartNumberMatch =
         _embeddedEbrPartNumberFormat.firstMatch(normalizedValue);
+    if (embeddedEbrPartNumberMatch != null) {
+      return ShippingQrData(
+        rawValue: normalizedValue,
+        partNumber: embeddedEbrPartNumberMatch.group(1)!.toUpperCase(),
+      );
+    }
+
+    final directPartNumberMatch =
+        _directPartNumberFormat.firstMatch(normalizedValue);
     if (directPartNumberMatch != null) {
       return ShippingQrData(
         rawValue: normalizedValue,
         partNumber: directPartNumberMatch.group(1)!.toUpperCase(),
-      );
-    }
-
-    final broadDirectPartNumberMatch =
-        _directPartNumberFormat.firstMatch(normalizedValue);
-    if (broadDirectPartNumberMatch != null) {
-      return ShippingQrData(
-        rawValue: normalizedValue,
-        partNumber: broadDirectPartNumberMatch.group(1)!.toUpperCase(),
       );
     }
 

@@ -68,6 +68,36 @@ void main() {
       expect(parsed.quantity, isNull);
     });
 
+    test('extrae numero de parte desde etiqueta con prefijo 6902 y TR', () {
+      const rawValue = '6902-AJJ30036902---TR0424_024';
+
+      final parsed = ShippingQrParser.parse(rawValue);
+
+      expect(parsed, isNotNull);
+      expect(parsed!.partNumber, 'AJJ30036902');
+      expect(parsed.quantity, isNull);
+    });
+
+    test('extrae numero de parte desde etiqueta con apostrofes y TR', () {
+      const rawValue = "6902'AJJ30036902'''TR0424?024";
+
+      final parsed = ShippingQrParser.parse(rawValue);
+
+      expect(parsed, isNotNull);
+      expect(parsed!.partNumber, 'AJJ30036902');
+      expect(parsed.quantity, isNull);
+    });
+
+    test('extrae numero de parte desde lectura normalizada del scanner Zebra', () {
+      const rawValue = 'AJJ30036902--TR0424_0241';
+
+      final parsed = ShippingQrParser.parse(rawValue);
+
+      expect(parsed, isNotNull);
+      expect(parsed!.partNumber, 'AJJ30036902');
+      expect(parsed.quantity, isNull);
+    });
+
     test('retorna null cuando el QR no coincide con un formato soportado', () {
       final parsed = ShippingQrParser.parse('codigo-invalido');
 
