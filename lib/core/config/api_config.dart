@@ -13,7 +13,7 @@ abstract class ApiConfig {
   ///
   /// - `localEmulator`: Android Emulator usando 10.0.2.2
   /// - `localLan`: dispositivo físico en la misma red WiFi
-  /// - `production`: backend desplegado en Seenode
+  /// - `production`: backend local en Windows Server
   static const ApiEnvironment environment = ApiEnvironment.production;
 
   /// URL local para Android Emulator.
@@ -21,13 +21,13 @@ abstract class ApiConfig {
       'http://10.0.2.2:5000/api/shipping';
 
   /// URL local para dispositivo físico en la LAN.
-  /// Cambia la IP por la de tu PC cuando pruebes desde Zebra TC15.
+  /// Servidor local MES en Windows Server.
   static const String _localLanBaseUrl =
-      'http://192.168.1.100:5000/api/shipping';
+      'http://192.168.1.10/api/shipping';
 
-  /// URL del backend MES en Seenode.
+  /// URL del backend MES en servidor local.
   static const String _productionBaseUrl =
-      'https://web-c5a0mxe06n94.up-de-fra1-k8s-1.apps.run-on-seenode.com/api/shipping';
+      'http://192.168.1.10/api/shipping';
 
   static String get baseUrl {
     switch (environment) {
